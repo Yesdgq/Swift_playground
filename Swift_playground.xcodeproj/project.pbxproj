@@ -15,8 +15,11 @@
 		110E8E9F1EC44E6100E18803 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 110E8E9D1EC44E6100E18803 /* LaunchScreen.storyboard */; };
 		110E8EAA1EC44E6100E18803 /* Swift_playgroundTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110E8EA91EC44E6100E18803 /* Swift_playgroundTests.swift */; };
 		110E8EB51EC44E6100E18803 /* Swift_playgroundUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110E8EB41EC44E6100E18803 /* Swift_playgroundUITests.swift */; };
+		1160F17520119F290052D29B /* NetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1160F17420119F290052D29B /* NetworkTool.swift */; };
 		11E5965420049AFA00F46DF0 /* DogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E5965320049AFA00F46DF0 /* DogVC.swift */; };
 		11E5965D2004C58200F46DF0 /* UrlMarco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E5965C2004C58200F46DF0 /* UrlMarco.swift */; };
+		11E9F7B62015D65400AD8C83 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E9F7B42015D65300AD8C83 /* XMLReader.m */; };
+		11E9F7BC2015E82100AD8C83 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E9F7BA2015E82100AD8C83 /* XMLDictionary.m */; };
 		1A07827DA559E28723FA4F88 /* Pods_Swift_playground.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5284905C68A0D94FE47EE4CB /* Pods_Swift_playground.framework */; };
 		8B67F1B7457B077D2D236631 /* Pods_Swift_playgroundTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28DE33C506C3E52B0602EB12 /* Pods_Swift_playgroundTests.framework */; };
 /* End PBXBuildFile section */
@@ -53,8 +56,14 @@
 		110E8EB01EC44E6100E18803 /* Swift_playgroundUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Swift_playgroundUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		110E8EB41EC44E6100E18803 /* Swift_playgroundUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift_playgroundUITests.swift; sourceTree = "<group>"; };
 		110E8EB61EC44E6100E18803 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1160F17420119F290052D29B /* NetworkTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTool.swift; sourceTree = "<group>"; };
 		11E5965320049AFA00F46DF0 /* DogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogVC.swift; sourceTree = "<group>"; };
 		11E5965C2004C58200F46DF0 /* UrlMarco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlMarco.swift; sourceTree = "<group>"; };
+		11E9F7B02015D5D600AD8C83 /* Swift_playground-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Swift_playground-Bridging-Header.h"; sourceTree = "<group>"; };
+		11E9F7B42015D65300AD8C83 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
+		11E9F7B52015D65300AD8C83 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		11E9F7BA2015E82100AD8C83 /* XMLDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLDictionary.m; sourceTree = "<group>"; };
+		11E9F7BB2015E82100AD8C83 /* XMLDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLDictionary.h; sourceTree = "<group>"; };
 		14AE44E9E2618986143F0FA2 /* Pods-Swift_playgroundTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift_playgroundTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Swift_playgroundTests/Pods-Swift_playgroundTests.release.xcconfig"; sourceTree = "<group>"; };
 		28DE33C506C3E52B0602EB12 /* Pods_Swift_playgroundTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swift_playgroundTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4580AA5221A641A0F7784245 /* Pods-Swift_playground.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swift_playground.release.xcconfig"; path = "Pods/Target Support Files/Pods-Swift_playground/Pods-Swift_playground.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,11 +128,14 @@
 				110E8E931EC44E6100E18803 /* ViewController.swift */,
 				11E5965320049AFA00F46DF0 /* DogVC.swift */,
 				11E5965C2004C58200F46DF0 /* UrlMarco.swift */,
+				1160F17420119F290052D29B /* NetworkTool.swift */,
+				11E9F7B92015D69E00AD8C83 /* OC */,
 				110E8E951EC44E6100E18803 /* Main.storyboard */,
 				110E8E9B1EC44E6100E18803 /* Assets.xcassets */,
 				110E8E9D1EC44E6100E18803 /* LaunchScreen.storyboard */,
 				110E8EA01EC44E6100E18803 /* Info.plist */,
 				110E8E981EC44E6100E18803 /* Swift_playground.xcdatamodeld */,
+				11E9F7B02015D5D600AD8C83 /* Swift_playground-Bridging-Header.h */,
 			);
 			path = Swift_playground;
 			sourceTree = "<group>";
@@ -144,6 +156,17 @@
 				110E8EB61EC44E6100E18803 /* Info.plist */,
 			);
 			path = Swift_playgroundUITests;
+			sourceTree = "<group>";
+		};
+		11E9F7B92015D69E00AD8C83 /* OC */ = {
+			isa = PBXGroup;
+			children = (
+				11E9F7B52015D65300AD8C83 /* XMLReader.h */,
+				11E9F7B42015D65300AD8C83 /* XMLReader.m */,
+				11E9F7BB2015E82100AD8C83 /* XMLDictionary.h */,
+				11E9F7BA2015E82100AD8C83 /* XMLDictionary.m */,
+			);
+			path = OC;
 			sourceTree = "<group>";
 		};
 		90BD66D0B435F77B37A3B080 /* Frameworks */ = {
@@ -241,7 +264,7 @@
 					110E8E8D1EC44E6100E18803 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = H47Q96Z786;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					110E8EA41EC44E6100E18803 = {
@@ -362,9 +385,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Swift_playground/Pods-Swift_playground-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyXMLParser/SwiftyXMLParser.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyXMLParser.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -417,10 +447,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				11E5965D2004C58200F46DF0 /* UrlMarco.swift in Sources */,
+				11E9F7BC2015E82100AD8C83 /* XMLDictionary.m in Sources */,
 				110E8E9A1EC44E6100E18803 /* Swift_playground.xcdatamodeld in Sources */,
 				11E5965420049AFA00F46DF0 /* DogVC.swift in Sources */,
 				110E8E941EC44E6100E18803 /* ViewController.swift in Sources */,
+				1160F17520119F290052D29B /* NetworkTool.swift in Sources */,
 				110E8E921EC44E6100E18803 /* AppDelegate.swift in Sources */,
+				11E9F7B62015D65400AD8C83 /* XMLReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,11 +618,14 @@
 			baseConfigurationReference = 691A231D3E92342E0B153991 /* Pods-Swift_playground.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = H47Q96Z786;
 				INFOPLIST_FILE = Swift_playground/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "P.R.China.Swift-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Swift_playground/Swift_playground-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
@@ -600,11 +636,13 @@
 			baseConfigurationReference = 4580AA5221A641A0F7784245 /* Pods-Swift_playground.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = H47Q96Z786;
 				INFOPLIST_FILE = Swift_playground/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "P.R.China.Swift-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Swift_playground/Swift_playground-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
