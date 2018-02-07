@@ -19,22 +19,21 @@ class ViewController: UIViewController {
         myLabel.text = "你好"
         myLabel.backgroundColor = UIColor.red
         myButton.setImage(UIImage(named: "Delete"), for: .normal)
-        myButton.setTitle("按钮", for: .normal)
+        myButton.setTitle("CollectionView", for: .normal)
         
         // 构造方法
         DogVC().eat(nil)
         
-        // 在swift4.0中，提供了专门的语法来显示多行字符串，从而告别转义
-        //        let longString = """
-        //When you write a string that spans multiple
-        //lines make sure you start its content on a
-        //line all of its own, and end it with three
-        //quotes also on a line of their own.
-        //Multi-line strings also let you write "quote marks"
-        //freely inside your strings, which is great!
-        //"""
-        //        print(longString)
-        
+        //         在swift4.0中，提供了专门的语法来显示多行字符串，从而告别转义
+        //                let longString = """
+        //        When you write a string that spans multiple
+        //        lines make sure you start its content on a
+        //        line all of its own, and end it with three
+        //        quotes also on a line of their own.
+        //        Multi-line strings also let you write "quote marks"
+        //        freely inside your strings, which is great!
+        //        """
+        //                print(longString)
         
         
         
@@ -54,6 +53,19 @@ class ViewController: UIViewController {
         button2.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
         self.view.addSubview(button2)
         
+        let button3: UIButton = UIButton(type: .custom)
+        button3.frame = CGRect(x:80, y:450, width:100, height:30)
+        button3.backgroundColor = UIColor.red
+        button3.setTitle("tableView", for: .normal)
+        button3.setTitle("tableView", for: .highlighted)
+        button3.setTitleShadowColor(UIColor.cyan, for: .normal)
+        button3.setTitleShadowColor(UIColor.green, for: .highlighted)
+        button3.titleLabel?.font = UIFont.systemFont(ofSize: 19)
+        button3.tag = 3
+        // 省略尾部文字
+        button3.titleLabel?.lineBreakMode = .byTruncatingTail
+        button3.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
+        self.view.addSubview(button3)
         
         
         
@@ -63,14 +75,21 @@ class ViewController: UIViewController {
         DONG_Log("网络请求")
     }
     
-    @objc func someMethod(button:UIButton) {
-        DONG_Log("网络请求开始。。。")
-        
-        NetworkTool.requestData(.GET, URLString: "http://skmobiletv.96396.cn:10019/html/hlj_appjh/index.xml", parameters: nil) { (response) in
-            DONG_Log(response)
+    @objc private func someMethod(button:UIButton) {
+        if button.tag == 3 {
+            DONG_Log("tableView")
+            let tableViewVC = MyTableListVC()
+            self.navigationController?.pushViewController(tableViewVC, animated: true)
             
+        } else {
+            DONG_Log("网络请求开始。。。")
             
-            
+            NetworkTool.requestData(.GET, URLString: "http://skmobiletv.96396.cn:10019/html/hlj_appjh/index.xml", parameters: nil) { (response) in
+                DONG_Log(response)
+                
+                
+                
+            }
         }
     }
     
@@ -80,9 +99,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func doClickAction(_ sender: Any) {
-        DONG_Log("测试")
-        DONG_Log("hahhahah")
-        DONG_Log(89898)
+        DONG_Log("下一页")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //let loginVC = storyboard.instantiateInitialViewController() // 创建箭头指向的实例化控制器
+        let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+        self.navigationController?.pushViewController(loginVC, animated: true)
+        
         
     }
 }
