@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import SwiftyJSON
 
 private let CELL_ID = "cell_id"
 
@@ -17,11 +18,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
     @IBOutlet weak var idTextfield: UITextField!
     var collectionView: UICollectionView?
     var name: String?
+    var dataArray: [CellModel] = Array()
     
-    
+    let jsonArray: [[String : String]] = [
+        ["name" : "蛙儿子1",  "imageUrl" : "http://n.sinaimg.cn/translate"],
+        ["name" : "蛙儿子2",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子3",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"],
+        ["name" : "蛙儿子4",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子5",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子1",  "imageUrl" : "http://n.sinaimg.cn/translate"],
+        ["name" : "蛙儿子2",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子4",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子5",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子6",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"],
+        ["name" : "蛙儿子1",  "imageUrl" : "http://n.sinaimg.cn/translate"],
+        ["name" : "蛙儿子2",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子3",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"],
+        ["name" : "蛙儿子4",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子5",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子6",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"]]
     
     override func viewDidLoad() {
-        //        self.view.backgroundColor = UIColor.blue;
         self.title = "登录"
         
         self.idTextfield.borderStyle = UITextBorderStyle.roundedRect
@@ -45,6 +62,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
         self.idTextfield.keyboardType = UIKeyboardType.emailAddress
         // 设置 代理
         self.idTextfield.delegate = self
+        
+        for dict in jsonArray {
+            let jsonData = JSON(dict)
+            let model = CellModel(jsonData: jsonData)
+            dataArray.append(model)
+        }
         
         self.setupCollectionView()
         
@@ -103,8 +126,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
         // Snapkit使用示例
         collectionView?.snp.makeConstraints({ (make) -> Void in
             make.top.equalTo(self.view.snp.top).offset(150)
-            make.right.equalTo(-10)
-            make.left.equalTo(10)
+            make.right.left.equalTo(self.view)
             make.height.equalTo(500)
         })
     }
@@ -112,13 +134,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
     // MARK: - UICollectionView 代理
     
     // 分区数
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 3;
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 3
     }
-    
     // 每个分区含有的 item 个数
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20;
+        return self.dataArray.count;
     }
     
     // 返回 cell
@@ -127,6 +148,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
 //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath as IndexPath) as! CollectionViewCell;
         
         let cell = CollectionViewCell.cellWithCollectionView(collectionView, indexPath: indexPath)
+        let cellModel = self.dataArray[indexPath.row]
+        cell.cellModel = cellModel
         
         return cell;
     }
@@ -137,31 +160,35 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
     }
 }
 
-
-
 private let ID = "Collection"
 
 class CollectionViewCell: UICollectionViewCell {
     
-    let iconImage: UIImageView
-    let label: UILabel
-    
-
+    var iconImage: UIImageView?
+    var label: UILabel?
+    var cellModel: CellModel {
+        get {
+            return self.cellModel
+        }
+        set {
+            self.label?.text = newValue.name
+            let url = URL(string: newValue.imageUrl!)
+            // 1.SDWebImage
+            //            self.iconImage.sd_setImage(with: url, placeholderImage: UIImage(named: "imageHolder"))
+            // 2.Kingfisher
+            self.iconImage?.kf.setImage(with: url, placeholder: UIImage(named: "imageHolder"))
+        }
+    }
 
     init(iconImage: UIImageView, label: UILabel, name: String, frame: CGRect) {
         self.iconImage = iconImage
         self.label = label
         super.init(frame: frame)
-//        super.init(style: .Default, reuseIdentifier: nil)
     }
 
     override init(frame: CGRect) {
-        self.iconImage = UIImageView()
-        self.label = UILabel()
         super.init(frame: frame)
-        
-        self.backgroundColor = UIColor.red
-        self.addSubview(self.label)
+        self.setupUI()
     }
     
 
@@ -172,16 +199,20 @@ class CollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-    }
-    
-    // Class 初始化
-//    init(style: UITableViewCellStyle, reuseIdentifier: String?)
-//    {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//
-//    }
+        self.iconImage?.snp.makeConstraints { (make) in
+            make.left.top.equalTo(self.contentView).offset(2)
+            make.right.equalTo(self.contentView.snp.right).offset(-2)
+            make.height.equalTo(70)
+        }
 
-    
+        self.label?.textAlignment = .center
+        self.label?.snp.makeConstraints { (make) in
+            make.top.equalTo(self.iconImage!.snp.bottom).offset(5)
+            make.centerX.equalTo(self.iconImage!)
+            make.size.equalTo(CGSize(width: 80, height: 20))
+        }
+    }
+
     // Xib 初始化
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -189,7 +220,12 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func setupUI() {
-        
+        self.backgroundColor = UIColor.red
+        self.iconImage = UIImageView(image: UIImage(named: "imageHolder"))
+        self.label = UILabel()
+        self.label?.text = "label"
+        self.contentView.addSubview(self.iconImage!)
+        self.contentView.addSubview(self.label!)
     }
     
     class func cellWithCollectionView(_ collectionView : UICollectionView , indexPath : IndexPath) -> CollectionViewCell {

@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import SwiftyJSON
+import SnapKit
+import Kingfisher
 
 class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -17,17 +19,23 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     
     // MARK: - 懒加载
-    lazy var dataSourceArry: [String]? = {
+    lazy var dataSourceArry: [String] = {
         return ["me", "she", "he", "other", "ww", "zl"]
+    }()
+    
+    // 通过闭包懒加载
+    lazy var container: Array<AnyObject> = {
+        var arrrM: Array<Int> = []
+        return arrrM as [AnyObject]
     }()
    
     let jsonArray: [[String : String]] = [
-        ["name" : "蛙儿子1",  "imageUrl" : "http://n.sinaimg.cn/translate/w660h371/20180201/o53s-fyrcsrw4144209.jpg"],
+        ["name" : "蛙儿子1",  "imageUrl" : "http://n.sinaimg.cn/translate"],
         ["name" : "蛙儿子2",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
         ["name" : "蛙儿子3",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"],
         ["name" : "蛙儿子4",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
-        ["name" : "蛙儿子5",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"],
-        ["name" : "蛙儿子6",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"]]
+        ["name" : "蛙儿子5",  "imageUrl" : "http://ww1.sinaimg.cn/large/5f9dbc69ly1fo7w1bzua0j20ic0abwf0.jpg"],
+        ["name" : "蛙儿子6",  "imageUrl" : "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-1.jpg"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +64,7 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     // mark - tableViewDelegate
     // 分区数
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 5
     }
     
     // cell数
@@ -68,6 +76,8 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = MyTableViewCell.cellWithTableView(tableView)
 //        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil) // 系统默认cell
+        let cellModel = dataArray[indexPath.row]
+        cell.cellModel = cellModel
         return cell
     }
     
@@ -86,10 +96,21 @@ class MyTableViewCell: UITableViewCell {
     
     let iconIV: UIImageView
     let label: UILabel
-    var cellModel: CellModel?
+    var cellModel: CellModel {
+        get {
+            return self.cellModel
+        }
+        set {
+            self.label.text = newValue.name
+            let url = URL(string: newValue.imageUrl!)
+            // 1.SDWebImage
+//            self.iconIV.sd_setImage(with: url, placeholderImage: UIImage(named: "imageHolder"))
+            // 2.Kingfisher
+            self.iconIV.kf.setImage(with: url, placeholder: UIImage(named: "imageHolder"))
+        }
+    }
     
-    
-    class func cellWithTableView(_ tableView : UITableView) -> UITableViewCell {
+    class func cellWithTableView(_ tableView : UITableView) -> MyTableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ID) as? MyTableViewCell
         if cell == nil {
             cell = MyTableViewCell(style: .default, reuseIdentifier: ID)
@@ -101,9 +122,13 @@ class MyTableViewCell: UITableViewCell {
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.iconIV = UIImageView()
+        self.iconIV = UIImageView(image:UIImage(named: "imageHolder"))
         self.label = UILabel()
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.label.text = "......"
+        self.contentView.addSubview(self.iconIV)
+        self.contentView.addSubview(self.label)
         
     }
     
@@ -114,6 +139,20 @@ class MyTableViewCell: UITableViewCell {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.iconIV.snp.makeConstraints { (make) in
+            make.left.top.equalTo(self.contentView).offset(5)
+            make.size.equalTo(CGSize(width: 100, height: 75))
+        }
+        
+        self.label.snp.makeConstraints { (make) in
+            make.left.equalTo(self.iconIV.snp.right).offset(20)
+            make.centerY.equalTo(self.iconIV)
+            make.size.equalTo(CGSize(width: 100, height: 30))
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

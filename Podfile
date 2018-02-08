@@ -10,7 +10,8 @@ target 'Swift_playground' do
     pod 'SwiftyJSON',       '~> 4.0.0'
     pod 'SwiftyXMLParser',  '~> 4.0.0'
     pod 'SnapKit',          '~> 4.0.0'
-    
+    pod 'SDWebImage',       '~> 4.2.3'
+    pod 'Kingfisher',       '~> 4.6.1'
     
 end
 

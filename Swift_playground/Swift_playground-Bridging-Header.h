@@ -4,3 +4,4 @@
 
 #import "XMLReader.h"
 #import "XMLDictionary.h"
+#import <SDWebImage/UIImageView+WebCache.h>
