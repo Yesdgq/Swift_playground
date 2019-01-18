@@ -166,15 +166,13 @@ class CollectionViewCell: UICollectionViewCell {
     
     var iconImage: UIImageView?
     var label: UILabel?
-    var cellModel: CellModel {
-        get {
-            return self.cellModel
-        }
-        set {
-            self.label?.text = newValue.name
-            let url = URL(string: newValue.imageUrl!)
+
+    var cellModel: CellModel? {
+        willSet {
+            self.label?.text = newValue?.name
+            let url = URL(string: (newValue?.imageUrl!)!)
             // 1.SDWebImage
-            //            self.iconImage.sd_setImage(with: url, placeholderImage: UIImage(named: "imageHolder"))
+            //            self.iconIV.sd_setImage(with: url, placeholderImage: UIImage(named: "imageHolder"))
             // 2.Kingfisher
             self.iconImage?.kf.setImage(with: url, placeholder: UIImage(named: "imageHolder"))
         }

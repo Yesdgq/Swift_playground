@@ -96,15 +96,12 @@ class MyTableViewCell: UITableViewCell {
     
     let iconIV: UIImageView
     let label: UILabel
-    var cellModel: CellModel {
-        get {
-            return self.cellModel
-        }
-        set {
-            self.label.text = newValue.name
-            let url = URL(string: newValue.imageUrl!)
+    var cellModel: CellModel? {
+        willSet {
+            self.label.text = newValue?.name
+            let url = URL(string: (newValue?.imageUrl!)!)
             // 1.SDWebImage
-//            self.iconIV.sd_setImage(with: url, placeholderImage: UIImage(named: "imageHolder"))
+            //            self.iconIV.sd_setImage(with: url, placeholderImage: UIImage(named: "imageHolder"))
             // 2.Kingfisher
             self.iconIV.kf.setImage(with: url, placeholder: UIImage(named: "imageHolder"))
         }
