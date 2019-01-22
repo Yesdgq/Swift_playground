@@ -67,8 +67,24 @@ class ViewController: UIViewController {
         button3.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
         self.view.addSubview(button3)
         
+        self.setupNavigationItem()
         
         
+    }
+    
+    func setupNavigationItem() -> Void {
+        let naviBarIV = UIImageView(frame: CGRect(x: 0, y: 420, width: 200, height: 200))
+        naviBarIV.image = UIImage(named: "NavigationBar")
+        naviBarIV.backgroundColor = UIColor.yellow
+        let backBtn: UIButton = UIButton(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
+        backBtn.setImage(UIImage(named: "GoBack"), for: .normal)
+        backBtn.setImage(UIImage(named: "GoBak"), for: .highlighted)
+        backBtn.setTitle("返回", for: .normal)
+        backBtn.setTitleColor(UIColor.red, for: .normal)
+        backBtn.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
+        naviBarIV.isUserInteractionEnabled = true
+        naviBarIV.addSubview(backBtn)
+        self.view.addSubview(naviBarIV)
     }
     
     func loadData() {
