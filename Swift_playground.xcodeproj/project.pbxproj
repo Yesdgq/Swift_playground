@@ -206,7 +206,7 @@
 				110E8E8A1EC44E6100E18803 /* Sources */,
 				110E8E8B1EC44E6100E18803 /* Frameworks */,
 				110E8E8C1EC44E6100E18803 /* Resources */,
-				9CD81B82E9ED3ED82F76D830 /* [CP] Embed Pods Frameworks */,
+				1FE434A6C9691F55DBB034D2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -266,7 +266,7 @@
 				TargetAttributes = {
 					110E8E8D1EC44E6100E18803 = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = H47Q96Z786;
+						DevelopmentTeam = JK6DU7A7HA;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
@@ -291,6 +291,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -334,31 +335,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		225BEB3259BBB0A95D4974CC /* [CP] Check Pods Manifest.lock */ = {
+		1FE434A6C9691F55DBB034D2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Swift_playground-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9CD81B82E9ED3ED82F76D830 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Swift_playground/Pods-Swift_playground-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Swift_playground/Pods-Swift_playground-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -377,7 +360,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Swift_playground/Pods-Swift_playground-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Swift_playground/Pods-Swift_playground-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		225BEB3259BBB0A95D4974CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Swift_playground-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B81BF770B72BD0C8355D51B2 /* [CP] Check Pods Manifest.lock */ = {
@@ -580,7 +581,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = H47Q96Z786;
+				DEVELOPMENT_TEAM = JK6DU7A7HA;
 				INFOPLIST_FILE = Swift_playground/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "P.R.China.Swift-playground";
@@ -588,7 +589,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Swift_playground/Swift_playground-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -598,14 +599,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = H47Q96Z786;
+				DEVELOPMENT_TEAM = JK6DU7A7HA;
 				INFOPLIST_FILE = Swift_playground/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "P.R.China.Swift-playground";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Swift_playground/Swift_playground-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

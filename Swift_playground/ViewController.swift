@@ -25,15 +25,15 @@ class ViewController: UIViewController {
         DogVC().eat(nil)
         
         //         在swift4.0中，提供了专门的语法来显示多行字符串，从而告别转义
-        //                let longString = """
-        //        When you write a string that spans multiple
-        //        lines make sure you start its content on a
-        //        line all of its own, and end it with three
-        //        quotes also on a line of their own.
-        //        Multi-line strings also let you write "quote marks"
-        //        freely inside your strings, which is great!
-        //        """
-        //                print(longString)
+        //let longString = """
+//                When you write a string that spans multiple
+//                lines make sure you start its content on a
+//                line all of its own, and end it with three
+//                quotes also on a line of their own.
+//                Multi-line strings also let you write "quote marks"
+//                freely inside your strings, which is great!
+//                """
+        //print(longString)
         
         
         
@@ -100,11 +100,22 @@ class ViewController: UIViewController {
         } else {
             DONG_Log("网络请求开始。。。")
             
-            NetworkTool.requestData(.GET, URLString: "http://skmobiletv.96396.cn:10019/html/hlj_appjh/index.xml", parameters: nil) { (response) in
+            let nowDate = Date.init()
+            let dataFormatter = DateFormatter()
+            dataFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let timeStr = dataFormatter.string(from: nowDate);
+            
+            
+            let parameters: [String:Any] = ["appKey"        :"100001",
+                                            "sysUserCode"   :"MIYUNXIANAPPTEST-DGQ",
+                                            "password"      :"1234Abcd",
+                                            "channelCode"   :"0307",
+                                            "tenancyCode"   :"003",
+                                            "timestamp"     :timeStr]
+            
+            NetworkTool.requestData(.POST, URLString: "https://app.sms.huhutv.com.cn:1836/server-run/ws/rest/Login/checkPwd", parameters: parameters) { (response) in
+                
                 DONG_Log(response)
-                
-                
-                
             }
         }
     }
@@ -125,6 +136,19 @@ class ViewController: UIViewController {
     }
 }
 
-
+class Solution {
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+        var dict = [Int: Int]()
+        
+        for (i, num) in nums.enumerated() {
+            if let lastIndex = dict[target - num] {
+                return [lastIndex, i]
+            } else {
+                dict[num] = i
+            }
+        }
+        fatalError("No valid output")
+    }
+}
 
 

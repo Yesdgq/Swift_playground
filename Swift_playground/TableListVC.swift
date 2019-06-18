@@ -54,7 +54,7 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     
     func setuptableView() {
-        myTableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: 375, height: 667), style: UITableViewStyle.grouped)
+        myTableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: 375, height: 667), style: UITableView.Style.grouped)
         myTableView?.delegate = self
         myTableView?.dataSource = self
         
@@ -118,7 +118,7 @@ class MyTableViewCell: UITableViewCell {
         return cell!
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.iconIV = UIImageView(image:UIImage(named: "imageHolder"))
         self.label = UILabel()
         super.init(style: style, reuseIdentifier: reuseIdentifier)

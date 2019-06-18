@@ -41,7 +41,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
     override func viewDidLoad() {
         self.title = "登录"
         
-        self.idTextfield.borderStyle = UITextBorderStyle.roundedRect
+        self.idTextfield.borderStyle = UITextField.BorderStyle.roundedRect
         // 设置 提示字
         self.idTextfield.placeholder = "我是 UITextfield"
         // 设置 文字颜色   (颜色系统默认为 nil )
@@ -57,7 +57,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
         // 设置 最小可缩小的字号
         self.idTextfield.minimumFontSize = 13
         // 设置 清理按钮 (.never 从不出现 .whileEditing 编辑时出现 .unlessEditing 编辑时不出现 编辑完后出现 .always 一直出现)
-        self.idTextfield.clearButtonMode = UITextFieldViewMode.whileEditing
+        self.idTextfield.clearButtonMode = UITextField.ViewMode.whileEditing
         //  设置 键盘样式
         self.idTextfield.keyboardType = UIKeyboardType.emailAddress
         // 设置 代理
@@ -112,7 +112,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, UICollectionVi
         flowLayout.itemSize = CGSize.init(width: 100, height: 100)
         flowLayout.minimumLineSpacing = 10
         flowLayout.minimumInteritemSpacing = 10
-        flowLayout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10)
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 150, width: 375, height: 500), collectionViewLayout: flowLayout);
         collectionView?.dataSource = self
         collectionView?.delegate = self
