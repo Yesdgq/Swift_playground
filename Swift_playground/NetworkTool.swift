@@ -11,12 +11,187 @@ import Alamofire
 import SwiftyXMLParser
 import SwiftyJSON
 
-enum NetRequestMethodType {
-    case GET
-    case POST
+enum NetRequestMethodType: String {
+    case GET = "GET"
+    case POST = "POST"
 }
 
+// MARK: - 网络请求返回的数据类型
+enum DataResult<T> {
+    case success(T)         // 返回成功 返回数据
+    case failure(NSError)   // 返回失败 返回error
+}
+
+extension DataResult {
+    
+    public var isSuccess: Bool {
+        switch self {
+        case .success:
+            return true
+        case .failure:
+            return false
+        }
+    }
+    
+    public var isFailure: Bool {
+        return !isSuccess
+    }
+    
+    public var value: T? {
+        switch self {
+        case .success(let value):
+            return value;
+        case .failure:
+            return nil
+        }
+    }
+    
+    public var error: NSError? {
+        switch self {
+        case .success:
+            return nil
+        case .failure(let error):
+            return error
+        }
+    }
+}
+
+// MARK: - 接口协议
+protocol URLConfig {
+    func getPath() -> String
+}
+
+// MARK: - 接口环境
+struct NetConfig {
+    static var curServerIP = "app.sms.huhutv.com.cn"
+    static var devIP = "192.168.22.16"
+}
+
+// MARK: - 服务器加密类型
+enum ServerEncryptionType {
+    case `default`
+    case jiami1
+    case jiami2
+    
+    fileprivate func getServerEncryptionType(_ parameters: Dictionary<String, Any>?) throws -> Dictionary<String, Any> {
+        
+        switch self {
+        case .default:
+            return parameters ?? [String : String]()
+
+        case .jiami1:
+            return parameters ?? [String : String]()
+            
+        case .jiami2:
+            return parameters ?? [String : String]()
+        }
+    }
+    
+    // 解析解密服务端数据
+    fileprivate func analysisData(withResponse response: DataResult<Data>) ->  DataResult<Dictionary<String, Any>> {
+        
+        switch self {
+        case .default:
+            switch response {
+            case .failure(let error):
+                return DataResult.failure(error)
+                
+            case .success(let value):
+                do {
+                    let json = try JSONSerialization.jsonObject(with: value, options: .mutableContainers)
+                    let dic = json as! Dictionary<String, Any>
+                    return DataResult.success(dic)
+                } catch let error {
+                    print("数据解析失败")
+                    return DataResult.failure(error as NSError)
+                }
+            }
+            
+        case .jiami1:
+            switch response {
+            case .failure(let error):
+                return DataResult.failure(error)
+                
+            case .success(let value):
+                // 先解密...
+                do {
+                    let json = try JSONSerialization.jsonObject(with: value, options: .mutableContainers)
+                    let dic = json as! Dictionary<String, Any>
+                    return DataResult.success(dic)
+                } catch let error {
+                    print("数据解析失败")
+                    return DataResult.failure(error as NSError)
+                }
+            }
+            
+        case .jiami2:
+            switch response {
+            case .failure(let error):
+                return DataResult.failure(error)
+                
+            case .success(let value):
+                // 先解密...
+                do {
+                    let json = try JSONSerialization.jsonObject(with: value, options: .mutableContainers)
+                    let dic = json as! Dictionary<String, Any>
+                    return DataResult.success(dic)
+                } catch let error {
+                    print("数据解析失败")
+                    return DataResult.failure(error as NSError)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 接口枚举定义
+enum InterFaceEnum: String, URLConfig {
+    case checkPassword = "1836/server-run/ws/rest/Login/checkPwd"
+    case GetShortMsgUrl = "1836/server-run/ws/rest/Login/getShortMsg"
+    
+    func getPath() -> String {
+        let url = "https://" + NetConfig.curServerIP + ":\(self.rawValue)"
+        return url
+    }
+}
+
+
+
 class NetworkTool {
+    
+    private static let `default`: RequestManagerProtocol = RequestManager()
+    
+    // MARK: - 中间层 数据整合解析层
+    @discardableResult class func request(withInterface interface: URLConfig, parameters: Dictionary<String, Any>?, requestMethod: NetRequestMethodType = .POST, serverEncryptionType: ServerEncryptionType = .default, completionHandler: @escaping(_ dataResult: DataResult<Dictionary<String, Any>>) -> Void) -> URLSessionTask? {
+        
+        do {
+            print("---------------------- Request Begin! ----------------------")
+            print("urlString:\(interface.getPath())")
+            print("requestMethod:\(requestMethod.rawValue)")
+            
+            let realParameters = try serverEncryptionType.getServerEncryptionType(parameters)
+            let task = self.default.managerRequest(withInterface: interface.getPath(), parameters: realParameters, method: requestMethod) { (dataResult) in
+                
+                let finalDataResult = serverEncryptionType.analysisData(withResponse: dataResult)
+                switch finalDataResult {
+                case .failure(let error):
+                    print("errorCode:\(error.code) \nerrorMessage:\(error.localizedDescription)")
+                    
+                case .success(let value):
+                    print("ResponseData:\(value)")
+                }
+                 print("---------------------- Request End! ----------------------")
+                completionHandler(finalDataResult)
+            }
+            return task
+            
+        } catch {
+            completionHandler(DataResult.failure(error as NSError))
+          return nil
+        }
+        
+    }
+    
     class func requestData(_ requestType: NetRequestMethodType, URLString: String, parameters: [String : Any]?, completionHandler: @escaping (_ result: Any) -> ()) {
         
         let headers:HTTPHeaders = ["Content-type" : "application/json",
@@ -115,17 +290,47 @@ class NetworkTool {
         }
     }
     
+
+}
+
+
+// MARK: - 网络层
+protocol RequestManagerProtocol {
+    func managerRequest(withInterface interface: String, parameters: Dictionary<String, Any>, method: NetRequestMethodType, callBack: @escaping(_ dataResult: DataResult<Data>) -> Void) -> URLSessionTask?
+}
+
+final class RequestManager: RequestManagerProtocol {
     
-    
-    // 配置header，可以自定义
-    func configHeaders() -> HTTPHeaders {
+    // 调用Alamofire发起请求
+    @discardableResult func managerRequest(withInterface interface: String, parameters: Dictionary<String, Any>, method: NetRequestMethodType, callBack: @escaping (DataResult<Data>) -> Void) -> URLSessionTask? {
         
-        let headers:HTTPHeaders = ["Content-type":"application/json;charset=utf-8",
-                                   "Accept":"application/json",
-                                   "systemtype":"ios",
-                                   "channel":"00",
-                                   "Authorization":""]
-        
-        return headers
+        let headers:HTTPHeaders = ["Content-type" : "application/json",
+                                   "Accept"       : "application/json"]
+        var dataRequest: Alamofire.DataRequest?
+        dataRequest = Alamofire.request(interface, method: HTTPMethod(rawValue: method.rawValue) ?? HTTPMethod.post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseData { (response) in
+            
+            
+            switch response.result {
+                
+            case .failure(let error):
+                
+                print("---------------------- Request Fail! ----------------------",
+                      "\nTotalDurationTime:", response.timeline.totalDuration, "sec"
+                //     "\nerror:", error
+                )
+                
+                callBack(DataResult.failure(error as NSError))
+                
+            case .success(let value):
+                
+                print("---------------------- Request Succeed! ----------------------",
+                      "\nTotalDurationTime:", response.timeline.totalDuration, "sec",
+                      "\nDataSize:", response.data ?? "0 bytes")
+                
+                callBack(DataResult.success(value))
+            }
+            
+        }
+        return dataRequest?.task
     }
 }

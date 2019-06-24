@@ -113,9 +113,20 @@ class ViewController: UIViewController {
                                             "tenancyCode"   :"003",
                                             "timestamp"     :timeStr]
             
-            NetworkTool.requestData(.POST, URLString: "https://app.sms.huhutv.com.cn:1836/server-run/ws/rest/Login/checkPwd", parameters: parameters) { (response) in
+//            NetworkTool.requestData(.POST, URLString: "https://app.sms.huhutv.com.cn:1836/server-run/ws/rest/Login/checkPwd", parameters: parameters) { (response) in
+//
+//                DONG_Log(response)
+//            }
+            
+            NetworkTool.request(withInterface: InterFaceEnum.checkPassword, parameters: parameters) { data in
                 
-                DONG_Log(response)
+                switch data {
+                case .failure(let error):
+                    DONG_Log(error)
+                case .success:
+                    DONG_Log(data)
+                }
+            
             }
         }
     }
