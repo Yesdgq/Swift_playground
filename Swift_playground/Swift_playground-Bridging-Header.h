@@ -5,3 +5,5 @@
 #import "XMLReader.h"
 #import "XMLDictionary.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "MyDDLogFormatter.h"

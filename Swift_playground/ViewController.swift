@@ -8,84 +8,46 @@
 
 import UIKit
 import SwiftyXMLParser
+import RxSwift
+import RxCocoa
+import SnapKit
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var myLabel: UILabel!
     @IBOutlet weak var myButton: UIButton!
     
+    let disposeBag = DisposeBag()
+    
+    
+    //         在swift4.0中，提供了专门的语法来显示多行字符串，从而告别转义
+    let longString = """
+                    When you write a string that spans multiple
+                    lines make sure you start its content on a
+                    line all of its own, and end it with three
+                    quotes also on a line of their own.
+                    Multi-line strings also let you write "quote marks"
+                    freely inside your strings, which is great!
+                    """
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        myLabel.text = "你好"
-        myLabel.backgroundColor = UIColor.red
-        myButton.setImage(UIImage(named: "Delete"), for: .normal)
-        myButton.setTitle("CollectionView", for: .normal)
+
         
         // 构造方法
         DogVC().eat(nil)
         
-        //         在swift4.0中，提供了专门的语法来显示多行字符串，从而告别转义
-        //let longString = """
-//                When you write a string that spans multiple
-//                lines make sure you start its content on a
-//                line all of its own, and end it with three
-//                quotes also on a line of their own.
-//                Multi-line strings also let you write "quote marks"
-//                freely inside your strings, which is great!
-//                """
-        //print(longString)
+        DDLogDebug("hello")
         
+        self.setupSubviews()
         
+        //self.setupNavigationItem()
         
-        
-        
-        
-        let button2: UIButton = UIButton(type: .custom)
-        button2.frame = CGRect(x:80, y:150, width:100, height:30)
-        button2.backgroundColor = UIColor.red
-        button2.setTitle("普通状态", for: .normal)
-        button2.setTitle("高亮状态", for: .highlighted)
-        button2.setTitleShadowColor(UIColor.cyan, for: .normal)
-        button2.setTitleShadowColor(UIColor.green, for: .highlighted)
-        button2.titleLabel?.font = UIFont.systemFont(ofSize: 19)
-        // 省略尾部文字
-        button2.titleLabel?.lineBreakMode = .byTruncatingTail
-        button2.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
-        self.view.addSubview(button2)
-        
-        let button3: UIButton = UIButton(type: .custom)
-        button3.frame = CGRect(x:80, y:450, width:100, height:30)
-        button3.backgroundColor = UIColor.red
-        button3.setTitle("tableView", for: .normal)
-        button3.setTitle("tableView", for: .highlighted)
-        button3.setTitleShadowColor(UIColor.cyan, for: .normal)
-        button3.setTitleShadowColor(UIColor.green, for: .highlighted)
-        button3.titleLabel?.font = UIFont.systemFont(ofSize: 19)
-        button3.tag = 3
-        // 省略尾部文字
-        button3.titleLabel?.lineBreakMode = .byTruncatingTail
-        button3.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
-        self.view.addSubview(button3)
-        
-        self.setupNavigationItem()
-        
-        
+        self.addAButton()
     }
     
-    func setupNavigationItem() -> Void {
-        let naviBarIV = UIImageView(frame: CGRect(x: 0, y: 420, width: 200, height: 200))
-        naviBarIV.image = UIImage(named: "NavigationBar")
-        naviBarIV.backgroundColor = UIColor.yellow
-        let backBtn: UIButton = UIButton(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
-        backBtn.setImage(UIImage(named: "GoBack"), for: .normal)
-        backBtn.setImage(UIImage(named: "GoBak"), for: .highlighted)
-        backBtn.setTitle("返回", for: .normal)
-        backBtn.setTitleColor(UIColor.red, for: .normal)
-        backBtn.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
-        naviBarIV.isUserInteractionEnabled = true
-        naviBarIV.addSubview(backBtn)
-        self.view.addSubview(naviBarIV)
-    }
+    
     
     func loadData() {
         DONG_Log("网络请求")
@@ -113,10 +75,13 @@ class ViewController: UIViewController {
                                             "tenancyCode"   :"003",
                                             "timestamp"     :timeStr]
             
-//            NetworkTool.requestData(.POST, URLString: "https://app.sms.huhutv.com.cn:1836/server-run/ws/rest/Login/checkPwd", parameters: parameters) { (response) in
-//
-//                DONG_Log(response)
-//            }
+            //            NetworkTool.requestData(.POST, URLString: "https://app.sms.huhutv.com.cn:1836/server-run/ws/rest/Login/checkPwd", parameters: parameters) { (response) in
+            //
+            //                DONG_Log(response)
+            //            }
+            DDLogDebug("DDLogDebug")
+            print("print log")
+            NSLog("NSlog log")
             
             NetworkTool.request(withInterface: InterFaceEnum.checkPassword, parameters: parameters) { data in
                 
@@ -126,7 +91,7 @@ class ViewController: UIViewController {
                 case .success:
                     DONG_Log(data)
                 }
-            
+                
             }
         }
     }
@@ -143,9 +108,120 @@ class ViewController: UIViewController {
         let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
         self.navigationController?.pushViewController(loginVC, animated: true)
         
+    }
+    
+    func setupNavigationItem() -> Void {
+        let naviBarIV = UIImageView(frame: CGRect(x: 0, y: 420, width: 50, height: 50))
+        naviBarIV.image = UIImage(named: "NavigationBar")
+        naviBarIV.backgroundColor = UIColor.yellow
+        let backBtn: UIButton = UIButton(frame: CGRect(x: 50, y: 50, width: 50, height: 50))
+        backBtn.setImage(UIImage(named: "GoBack"), for: .normal)
+        backBtn.setImage(UIImage(named: "GoBak"), for: .highlighted)
+        backBtn.setTitle("返回", for: .normal)
+        backBtn.setTitleColor(UIColor.red, for: .normal)
+        backBtn.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
+        naviBarIV.isUserInteractionEnabled = true
+        naviBarIV.addSubview(backBtn)
+        self.view.addSubview(naviBarIV)
+    }
+}
+
+extension ViewController {
+    
+    
+    
+    
+    func setupSubviews() -> Void {
+        
+        myLabel.text = "你好"
+        myLabel.backgroundColor = UIColor.red
+        myButton.setImage(UIImage(named: "Delete"), for: .normal)
+        myButton.setTitle("CollectionView", for: .normal)
+        
+        
+        let button2: UIButton = UIButton(type: .custom)
+        button2.frame = CGRect(x:80, y:150, width:100, height:30)
+        button2.backgroundColor = UIColor.red
+        button2.setTitle("Alamofire", for: .normal)
+        button2.setTitle("高亮状态", for: .highlighted)
+        button2.setTitleShadowColor(UIColor.cyan, for: .normal)
+        button2.setTitleShadowColor(UIColor.green, for: .highlighted)
+        button2.titleLabel?.font = UIFont.systemFont(ofSize: 19)
+        // 省略尾部文字
+        button2.titleLabel?.lineBreakMode = .byTruncatingTail
+        button2.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
+        self.view.addSubview(button2)
+        
+        let button3: UIButton = UIButton(type: .custom)
+        button3.frame = CGRect(x:80, y:450, width:100, height:30)
+        button3.backgroundColor = UIColor.red
+        button3.setTitle("tableView", for: .normal)
+        button3.setTitle("tableView", for: .highlighted)
+        button3.setTitleShadowColor(UIColor.cyan, for: .normal)
+        button3.setTitleShadowColor(UIColor.green, for: .highlighted)
+        button3.titleLabel?.font = UIFont.systemFont(ofSize: 19)
+        button3.tag = 3
+        // 省略尾部文字
+        button3.titleLabel?.lineBreakMode = .byTruncatingTail
+        button3.addTarget(self, action: #selector(someMethod(button:)), for: .touchUpInside)
+        self.view.addSubview(button3)
         
     }
 }
+
+
+extension ViewController {
+    
+    func addInfoCollecBtn() -> Void {
+        
+        let button3: UIButton = UIButton(type: .custom)
+        button3.frame = CGRect(x:80, y:450, width:100, height:30)
+        button3.backgroundColor = UIColor.red
+        button3.setTitle("tableView", for: .normal)
+        button3.setTitle("tableView", for: .highlighted)
+        button3.setTitleShadowColor(UIColor.cyan, for: .normal)
+        button3.setTitleShadowColor(UIColor.green, for: .highlighted)
+        button3.titleLabel?.font = UIFont.systemFont(ofSize: 19)
+        button3.tag = 3
+        // 省略尾部文字
+        button3.titleLabel?.lineBreakMode = .byTruncatingTail
+        self.view.addSubview(button3)
+        
+    }
+    
+}
+
+
+extension ViewController {
+    
+    func addAButton() -> Void {
+        
+        let button = UIButton(type: .custom)
+        button.backgroundColor = UIColor.green
+        button.setTitle("RXSwift按钮", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        self.view.addSubview(button)
+        button.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view.snp.top).offset(200)
+            make.right.equalTo(self.view.snp.right).offset(-10)
+            make.width.equalTo(100)
+            make.height.equalTo(50)
+        }
+        
+        // 按钮点击响应
+        button.rx.tap
+            .subscribe(onNext: {
+                DDLogDebug("rx点击事件")
+                
+                let cusInfoCollVC = CusInfoColleVC()
+                self.navigationController?.pushViewController(cusInfoCollVC, animated: true)
+                
+            })
+            .disposed(by: disposeBag)
+        
+    }
+}
+
 
 class Solution {
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {

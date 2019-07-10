@@ -12,7 +12,4 @@ public struct UrlMarco {
   
     
     
-    
-    
-    
 }

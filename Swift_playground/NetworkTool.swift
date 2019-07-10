@@ -67,6 +67,29 @@ struct NetConfig {
     static var devIP = "192.168.22.16"
 }
 
+
+// MARK: - 接口枚举定义 生产环境
+enum InterFaceEnum: String, URLConfig {
+    case checkPassword = "1836/server-run/ws/rest/Login/checkPwd"
+    case GetShortMsgUrl = "1836/server-run/ws/rest/Login/getShortMsg"
+    
+    func getPath() -> String {
+        let url = "https://" + NetConfig.curServerIP + ":\(self.rawValue)"
+        return url
+    }
+}
+
+// MARK: - 接口枚举定义 测试环境
+enum DevInterFaceEnum: String, URLConfig {
+    case checkPassword = "1836/server-run/ws/rest/Login/checkPwd"
+    case GetShortMsgUrl = "1836/server-run/ws/rest/Login/getShortMsg"
+    
+    func getPath() -> String {
+        let url = "https://" + NetConfig.curServerIP + ":\(self.rawValue)"
+        return url
+    }
+}
+
 // MARK: - 服务器加密类型
 enum ServerEncryptionType {
     case `default`
@@ -78,7 +101,7 @@ enum ServerEncryptionType {
         switch self {
         case .default:
             return parameters ?? [String : String]()
-
+            
         case .jiami1:
             return parameters ?? [String : String]()
             
@@ -144,18 +167,6 @@ enum ServerEncryptionType {
     }
 }
 
-// MARK: - 接口枚举定义
-enum InterFaceEnum: String, URLConfig {
-    case checkPassword = "1836/server-run/ws/rest/Login/checkPwd"
-    case GetShortMsgUrl = "1836/server-run/ws/rest/Login/getShortMsg"
-    
-    func getPath() -> String {
-        let url = "https://" + NetConfig.curServerIP + ":\(self.rawValue)"
-        return url
-    }
-}
-
-
 
 class NetworkTool {
     
@@ -180,14 +191,14 @@ class NetworkTool {
                 case .success(let value):
                     print("ResponseData:\(value)")
                 }
-                 print("---------------------- Request End! ----------------------")
+                print("---------------------- Request End! ----------------------")
                 completionHandler(finalDataResult)
             }
             return task
             
         } catch {
             completionHandler(DataResult.failure(error as NSError))
-          return nil
+            return nil
         }
         
     }
@@ -229,15 +240,15 @@ class NetworkTool {
             DONG_Log("Result：\(response.result)")   // 响应序列化结果，在这个闭包里，存储的是JSON数据
             
             
-                        switch response.result {
-            
-                        case .success:
-            
-                            DONG_Log("成功")
-                        case .failure:
-                            
-                            DONG_Log("失败")
-                        }
+            switch response.result {
+                
+            case .success:
+                
+                DONG_Log("成功")
+            case .failure:
+                
+                DONG_Log("失败")
+            }
             
             
             guard let data = response.result.value  else {
@@ -273,12 +284,12 @@ class NetworkTool {
             //            }
             
             
-                       // 1 responseJSON序列化 解析一
-                        let jsonData = data as! Dictionary<String, Any>
+            // 1 responseJSON序列化 解析一
+            let jsonData = data as! Dictionary<String, Any>
             
-                        DONG_Log("jsonData: \(jsonData)")
-                        DONG_Log(jsonData["resultCode"])
-                        DONG_Log(jsonData["resultMessage"])
+            DONG_Log("jsonData: \(jsonData)")
+            DONG_Log(jsonData["resultCode"])
+            DONG_Log(jsonData["resultMessage"])
             
             
             //            // 2 responseJSON序列化 解析二
@@ -287,10 +298,11 @@ class NetworkTool {
             //            DONG_Log(jsonData["resultCode"])
             //            DONG_Log(jsonData["resultMessage"])
             
+            
         }
     }
     
-
+    
 }
 
 
@@ -301,22 +313,37 @@ protocol RequestManagerProtocol {
 
 final class RequestManager: RequestManagerProtocol {
     
+    static let sessionManager: Alamofire.SessionManager = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 10
+        
+        // 证书信任设置
+        let serverTrustPolicies: [String : ServerTrustPolicy] = [
+            "192.168.22.16" : .pinCertificates(certificates: ServerTrustPolicy.certificates(), validateCertificateChain: true, validateHost: true)]
+        
+        return Alamofire.SessionManager(configuration: configuration, delegate: SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
+//        return Alamofire.SessionManager(configuration: configuration)
+    }()
+    
+    
+    
     // 调用Alamofire发起请求
     @discardableResult func managerRequest(withInterface interface: String, parameters: Dictionary<String, Any>, method: NetRequestMethodType, callBack: @escaping (DataResult<Data>) -> Void) -> URLSessionTask? {
         
+        
         let headers:HTTPHeaders = ["Content-type" : "application/json",
                                    "Accept"       : "application/json"]
+        
         var dataRequest: Alamofire.DataRequest?
-        dataRequest = Alamofire.request(interface, method: HTTPMethod(rawValue: method.rawValue) ?? HTTPMethod.post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseData { (response) in
-            
-            
+        dataRequest = RequestManager.sessionManager.request(interface, method: HTTPMethod(rawValue: method.rawValue) ?? HTTPMethod.post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseData { (response) in
+           
             switch response.result {
                 
             case .failure(let error):
                 
                 print("---------------------- Request Fail! ----------------------",
                       "\nTotalDurationTime:", response.timeline.totalDuration, "sec"
-                //     "\nerror:", error
+                    //     "\nerror:", error
                 )
                 
                 callBack(DataResult.failure(error as NSError))

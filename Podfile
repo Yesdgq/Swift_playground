@@ -12,6 +12,10 @@ target 'Swift_playground' do
     pod 'SnapKit'
     pod 'SDWebImage'
     pod 'Kingfisher'
+    pod 'CocoaLumberjack/Swift'
+    
+    pod 'RxSwift'
+    pod 'RxCocoa'
     
     
 end

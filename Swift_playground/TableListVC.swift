@@ -12,7 +12,7 @@ import SwiftyJSON
 import SnapKit
 import Kingfisher
 
-class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MyTableListVC: UIViewController {
     
     var myTableView: UITableView?
     var dataArray: [CellModel] = Array()
@@ -48,7 +48,7 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         }
         
         self.setuptableView()
-        
+        DDLogDebug("setup")
     }
     
     
@@ -61,7 +61,15 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         self.view.addSubview(myTableView!)
     }
     
-    // mark - tableViewDelegate
+    deinit {
+        DDLogDebug("MyTableListVC 控制器释放")
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension MyTableListVC: UITableViewDataSource {
+    
     // 分区数
     func numberOfSections(in tableView: UITableView) -> Int {
         return 5
@@ -75,7 +83,7 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     // cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = MyTableViewCell.cellWithTableView(tableView)
-//        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil) // 系统默认cell
+        //        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil) // 系统默认cell
         let cellModel = dataArray[indexPath.row]
         cell.cellModel = cellModel
         return cell
@@ -84,6 +92,11 @@ class MyTableListVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
+}
+
+// MARK: - UITableViewDelegate
+
+extension MyTableListVC: UITableViewDelegate {
     
 }
 

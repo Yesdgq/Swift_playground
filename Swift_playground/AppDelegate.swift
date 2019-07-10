@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        self.configCocoaLumberjack()
         
         
         return true
@@ -103,3 +106,31 @@ func DONG_Log<T>(_ message: T, file: String = #file, function: String = #functio
         print("\(fileName) 🔴 第\(line)行：\(message)")
     #endif
 }
+
+extension AppDelegate {
+    
+    func configCocoaLumberjack() {
+        
+//        DDLog.add(DDOSLogger.sharedInstance, with: .verbose)    // Uses os_log
+//        DDLog.add(DDASLLogger.sharedInstance, with: .warning)
+        DDLog.add(DDTTYLogger.sharedInstance, with: .verbose)   // xcode控制台
+    
+        DDTTYLogger.sharedInstance.logFormatter = MyDDLogFormatter.sharedInstance()
+        
+        let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true)[0]
+        let logfileManager = DDLogFileManagerDefault(logsDirectory: documentsDirectory)
+        let fileLogger: DDFileLogger = DDFileLogger(logFileManager: logfileManager)
+        fileLogger.rollingFrequency = 60 * 60 * 24 // 24 hours
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7
+        DDLog.add(fileLogger)
+        
+        
+        DDLogVerbose("Verbose")
+        DDLogDebug("Debug")
+        DDLogInfo("Info")
+        DDLogWarn("Warn")
+        DDLogError("Error")
+    }
+    
+}
+
