@@ -20,6 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.configCocoaLumberjack()
         
+//        window = UIWindow(frame: UIScreen.main.bounds)
+//        if let window = window {
+//            // make window visible
+//            window.rootViewController = ViewController()
+//            window.backgroundColor = UIColor(red: 70/255, green: 154/255, blue: 233/255, alpha: 1)
+//            window.makeKeyAndVisible()
+//        }
+        
+       
         
         return true
     }

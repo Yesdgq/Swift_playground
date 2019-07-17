@@ -12,10 +12,12 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CAAnimationDelegate {
     
     @IBOutlet weak var myLabel: UILabel!
     @IBOutlet weak var myButton: UIButton!
+    
+    var mask: CALayer?
     
     let disposeBag = DisposeBag()
     
@@ -33,7 +35,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = UIColor.white
         
         // 构造方法
         DogVC().eat(nil)
@@ -45,6 +47,47 @@ class ViewController: UIViewController {
         //self.setupNavigationItem()
         
         self.addAButton()
+        
+        
+        self.setupTwitterBirdAnimation()
+        
+        animateMask()
+        
+//        self.view.backgroundColor = UIColor(red: 70/255, green: 154/255, blue: 233/255, alpha: 1)
+    }
+    
+    func setupTwitterBirdAnimation() {
+        // set up mask
+        mask = CALayer()
+        mask?.contents = UIImage(named: "twitterBird")?.cgImage
+        mask?.position = self.view.center
+        mask?.bounds = CGRect(x: 0, y: 0, width: 100, height: 80)
+        self.view.layer.mask = mask
+    }
+    
+    func animateMask() {
+        // init key frame animation
+        let keyFrameAnimation = CAKeyframeAnimation(keyPath: "bounds")
+        keyFrameAnimation.delegate = self
+        keyFrameAnimation.duration = 1
+        keyFrameAnimation.beginTime = CACurrentMediaTime() + 1
+        
+        // animate zoom in and then zoom out
+        let initalBounds = NSValue(cgRect: mask!.bounds)
+        let secondBounds = NSValue(cgRect: CGRect(x: 0, y: 0, width: 80, height: 64))
+        let finalBounds = NSValue(cgRect: CGRect(x: 0, y: 0, width: 2000, height: 2000))
+        keyFrameAnimation.values = [initalBounds, secondBounds, finalBounds]
+        
+        // set up time interals
+        keyFrameAnimation.keyTimes = [0, 0.3, 1]
+        
+        // add animation to current view
+        keyFrameAnimation.timingFunctions = [CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut), CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)]
+        mask!.add(keyFrameAnimation, forKey: "bounds")
+    }
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        self.view.layer.mask = nil
     }
     
     
@@ -133,10 +176,10 @@ extension ViewController {
     
     func setupSubviews() -> Void {
         
-        myLabel.text = "你好"
-        myLabel.backgroundColor = UIColor.red
-        myButton.setImage(UIImage(named: "Delete"), for: .normal)
-        myButton.setTitle("CollectionView", for: .normal)
+//        myLabel.text = "你好"
+//        myLabel.backgroundColor = UIColor.red
+//        myButton.setImage(UIImage(named: "Delete"), for: .normal)
+//        myButton.setTitle("CollectionView", for: .normal)
         
         
         let button2: UIButton = UIButton(type: .custom)
@@ -153,7 +196,7 @@ extension ViewController {
         self.view.addSubview(button2)
         
         let button3: UIButton = UIButton(type: .custom)
-        button3.frame = CGRect(x:80, y:450, width:100, height:30)
+        button3.frame = CGRect(x:80, y:500, width:100, height:30)
         button3.backgroundColor = UIColor.red
         button3.setTitle("tableView", for: .normal)
         button3.setTitle("tableView", for: .highlighted)
