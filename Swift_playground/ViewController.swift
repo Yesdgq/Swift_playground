@@ -37,6 +37,7 @@ class ViewController: UIViewController, CAAnimationDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
+        
         // 构造方法
         DogVC().eat(nil)
         
@@ -49,11 +50,17 @@ class ViewController: UIViewController, CAAnimationDelegate {
         self.addAButton()
         
         
-        self.setupTwitterBirdAnimation()
+//        self.setupTwitterBirdAnimation()
+//
+//        animateMask()
+
         
-        animateMask()
+ 
+       
         
-//        self.view.backgroundColor = UIColor(red: 70/255, green: 154/255, blue: 233/255, alpha: 1)
+        
+        
+        
     }
     
     func setupTwitterBirdAnimation() {
@@ -150,6 +157,12 @@ class ViewController: UIViewController, CAAnimationDelegate {
         //let loginVC = storyboard.instantiateInitialViewController() // 创建箭头指向的实例化控制器
         let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
         self.navigationController?.pushViewController(loginVC, animated: true)
+        
+    }
+    
+    @IBAction func gotoMVVMDemoPage(_ sender: Any) {
+        let gitHubVC: GitHubInfoVC = GitHubInfoVC()
+        self.navigationController?.pushViewController(gitHubVC, animated: true)
         
     }
     
