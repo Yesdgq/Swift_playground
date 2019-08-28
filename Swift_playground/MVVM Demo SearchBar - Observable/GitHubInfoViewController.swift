@@ -53,11 +53,10 @@ class GitHubInfoVC: UIViewController {
         //单元格点击
         tableView.rx.modelSelected(GitHubRepository.self)
             .subscribe(onNext: {[weak self] item in
+                
                 //显示资源问题
                 self?.showAlert(tittle: item.fullName, message: item.description)
             }).disposed(by: disposeBag)
-        
-        
         
     }
     

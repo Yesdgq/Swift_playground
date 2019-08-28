@@ -25,6 +25,7 @@
 		1186F1FF22D340D2001AD4DF /* CusInfoColleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1186F1FE22D340D2001AD4DF /* CusInfoColleVC.swift */; };
 		1196825222CCAB4500DF00CE /* httpsServerAuth.cer in Resources */ = {isa = PBXBuildFile; fileRef = 1196825122CCAB4500DF00CE /* httpsServerAuth.cer */; };
 		11A8623B230BF34C0015F2D8 /* GitHubInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A8623A230BF34C0015F2D8 /* GitHubInfoViewController.swift */; };
+		11CC491723152B01002A74B2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC491623152B01002A74B2 /* HomeViewController.swift */; };
 		11E5965420049AFA00F46DF0 /* DogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E5965320049AFA00F46DF0 /* DogVC.swift */; };
 		11E5965D2004C58200F46DF0 /* UrlMarco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E5965C2004C58200F46DF0 /* UrlMarco.swift */; };
 		11E9F7B62015D65400AD8C83 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E9F7B42015D65300AD8C83 /* XMLReader.m */; };
@@ -79,6 +80,7 @@
 		1186F1FE22D340D2001AD4DF /* CusInfoColleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CusInfoColleVC.swift; sourceTree = "<group>"; };
 		1196825122CCAB4500DF00CE /* httpsServerAuth.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = httpsServerAuth.cer; sourceTree = "<group>"; };
 		11A8623A230BF34C0015F2D8 /* GitHubInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubInfoViewController.swift; sourceTree = "<group>"; };
+		11CC491623152B01002A74B2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		11E5965320049AFA00F46DF0 /* DogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogVC.swift; sourceTree = "<group>"; };
 		11E5965C2004C58200F46DF0 /* UrlMarco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlMarco.swift; sourceTree = "<group>"; };
 		11E9F7B02015D5D600AD8C83 /* Swift_playground-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Swift_playground-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -150,15 +152,15 @@
 			isa = PBXGroup;
 			children = (
 				110E8E911EC44E6100E18803 /* AppDelegate.swift */,
+				11CC491623152B01002A74B2 /* HomeViewController.swift */,
 				110E8E931EC44E6100E18803 /* ViewController.swift */,
 				110016D12019AD7D0035B605 /* LoginViewController.swift */,
 				11F1BAE520298269008B6EE3 /* TableListVC.swift */,
 				11E5965320049AFA00F46DF0 /* DogVC.swift */,
 				11E5965C2004C58200F46DF0 /* UrlMarco.swift */,
-				1160F17420119F290052D29B /* NetworkTool.swift */,
 				1186F1FC22D2EF6A001AD4DF /* UIColor+HexString.swift */,
 				1186F1FE22D340D2001AD4DF /* CusInfoColleVC.swift */,
-				1196825122CCAB4500DF00CE /* httpsServerAuth.cer */,
+				1171076223162D13000B768B /* NetworkTool */,
 				1170964E230A481F0067E266 /* MVVM Demo SearchBar - Observable */,
 				11FFABFC22D447DA00388C3B /* Utility */,
 				11E9F7B92015D69E00AD8C83 /* OC */,
@@ -199,6 +201,15 @@
 				11A8623A230BF34C0015F2D8 /* GitHubInfoViewController.swift */,
 			);
 			path = "MVVM Demo SearchBar - Observable";
+			sourceTree = "<group>";
+		};
+		1171076223162D13000B768B /* NetworkTool */ = {
+			isa = PBXGroup;
+			children = (
+				1160F17420119F290052D29B /* NetworkTool.swift */,
+				1196825122CCAB4500DF00CE /* httpsServerAuth.cer */,
+			);
+			path = NetworkTool;
 			sourceTree = "<group>";
 		};
 		11E9F7B92015D69E00AD8C83 /* OC */ = {
@@ -484,6 +495,7 @@
 				11F1BAE620298269008B6EE3 /* TableListVC.swift in Sources */,
 				110E8E941EC44E6100E18803 /* ViewController.swift in Sources */,
 				1160F17520119F290052D29B /* NetworkTool.swift in Sources */,
+				11CC491723152B01002A74B2 /* HomeViewController.swift in Sources */,
 				110E8E921EC44E6100E18803 /* AppDelegate.swift in Sources */,
 				11709656230A7C160067E266 /* GitHubModel.swift in Sources */,
 				11FFAC0222D4688000388C3B /* String+Extension.swift in Sources */,

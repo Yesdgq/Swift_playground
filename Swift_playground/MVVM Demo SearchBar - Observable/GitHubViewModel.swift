@@ -27,6 +27,8 @@ class GitHubViewModel {
     //清空查询结果
     let cleanResult: Observable<Void>
     
+    let subject: Observable<String>
+    
     //导航栏标题
     let navigationTitle: Observable<String>
     
@@ -34,13 +36,17 @@ class GitHubViewModel {
     //ViewModel初始化（根据输入实现对应的输出）
     init(searchAction: Observable<String>) {
         self.searchAction = searchAction
-        
         //生成查询结果序列
         self.searchResult = searchAction
-            .filter{ !$0.isEmpty }  //如果输入为空则不发送请求了 过滤操作
-            .flatMapLatest{
-                
-                GitHubProvider.rx.request(.repositories($0))
+            .filter{
+                return !$0.isEmpty
+            }  //如果输入为空则不发送请求了 过滤操作
+            .flatMapLatest{ (event) -> Observable<GitHubRepositories> in
+
+//                print(event)
+                //return Observable<GitHubRepositories>.empty()
+
+                GitHubProvider.rx.request(.repositories(event))
                     .filterSuccessfulStatusCodes() //(statusCodes: 200...299)
                     .mapObject(GitHubRepositories.self)
                     .asObservable()
@@ -48,7 +54,24 @@ class GitHubViewModel {
                         DDLogDebug("发生错误：\(error.localizedDescription)")
                         return Observable<GitHubRepositories>.empty()
                     })
-            }.share(replay: 1) //让HTTP请求是被共享的
+            }.share(replay: 1) //让HTTP请求是被共享的 这样就不会出现『多次订阅导致重复地网络请求』的情况了
+        
+        
+        
+        
+        //瞎试
+        subject  =  searchAction
+            .filter{
+                DDLogDebug("输入框00000：\($0)")
+                return !$0.isEmpty }
+            .flatMapLatest{ (event) -> Observable<String> in
+                DDLogDebug("输出11111：\(event)")
+                return Observable.of("默认值")
+            }
+            .catchError({ error in
+                DDLogDebug("发生错误：\(error.localizedDescription)")
+                return Observable<String>.empty()
+            })
         
         
         //生成清空结果动作序列
@@ -80,13 +103,13 @@ class GitHubViewModel {
             .subscribe(onNext: { print($0) })
             .disposed(by: disposeBag)
         
-        subject1.onNext(20)
-        subject1.onNext(40)
-        subject1.onNext(60)
-        subject2.onNext(1)
-        subject1.onNext(80)
-        subject1.onNext(100)
-        subject2.onNext(1)
+        //        subject1.onNext(20)
+        //        subject1.onNext(40)
+        //        subject1.onNext(60)
+        //        subject2.onNext(1)
+        //        subject1.onNext(80)
+        //        subject1.onNext(100)
+        //        subject2.onNext(1)
         
         
     }

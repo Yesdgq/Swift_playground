@@ -85,7 +85,7 @@ enum DevInterFaceEnum: String, URLConfig {
     case GetShortMsgUrl = "1836/server-run/ws/rest/Login/getShortMsg"
     
     func getPath() -> String {
-        let url = "https://" + NetConfig.curServerIP + ":\(self.rawValue)"
+        let url = "https://" + NetConfig.devIP + ":\(self.rawValue)"
         return url
     }
 }
@@ -96,6 +96,7 @@ enum ServerEncryptionType {
     case jiami1
     case jiami2
     
+    //对参数进行加密
     fileprivate func getServerEncryptionType(_ parameters: Dictionary<String, Any>?) throws -> Dictionary<String, Any> {
         
         switch self {
@@ -110,7 +111,7 @@ enum ServerEncryptionType {
         }
     }
     
-    // 解析解密服务端数据
+    //解析解密服务端数据
     fileprivate func analysisData(withResponse response: DataResult<Data>) ->  DataResult<Dictionary<String, Any>> {
         
         switch self {
@@ -136,7 +137,7 @@ enum ServerEncryptionType {
                 return DataResult.failure(error)
                 
             case .success(let value):
-                // 先解密...
+                //先解密...
                 do {
                     let json = try JSONSerialization.jsonObject(with: value, options: .mutableContainers)
                     let dic = json as! Dictionary<String, Any>
@@ -153,7 +154,7 @@ enum ServerEncryptionType {
                 return DataResult.failure(error)
                 
             case .success(let value):
-                // 先解密...
+                //先解密...
                 do {
                     let json = try JSONSerialization.jsonObject(with: value, options: .mutableContainers)
                     let dic = json as! Dictionary<String, Any>
@@ -202,6 +203,12 @@ class NetworkTool {
         }
         
     }
+    
+    /*
+     *  
+     *
+     *
+     */
     
     class func requestData(_ requestType: NetRequestMethodType, URLString: String, parameters: [String : Any]?, completionHandler: @escaping (_ result: Any) -> ()) {
         
@@ -322,7 +329,7 @@ final class RequestManager: RequestManagerProtocol {
             "192.168.22.16" : .pinCertificates(certificates: ServerTrustPolicy.certificates(), validateCertificateChain: true, validateHost: true)]
         
         return Alamofire.SessionManager(configuration: configuration, delegate: SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
-//        return Alamofire.SessionManager(configuration: configuration)
+        //        return Alamofire.SessionManager(configuration: configuration)
     }()
     
     
@@ -336,7 +343,7 @@ final class RequestManager: RequestManagerProtocol {
         
         var dataRequest: Alamofire.DataRequest?
         dataRequest = RequestManager.sessionManager.request(interface, method: HTTPMethod(rawValue: method.rawValue) ?? HTTPMethod.post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseData { (response) in
-           
+            
             switch response.result {
                 
             case .failure(let error):
