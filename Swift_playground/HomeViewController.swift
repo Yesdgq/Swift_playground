@@ -23,9 +23,12 @@ class HomeViewController: UIViewController {
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "首页"
         
-        self.dataSource = Observable.of(["RxSwift小demo", "信息核查工具 tableView", "TableView", "CollectionView", "Alamofire", "MVVM + Rxswift + Moya + ObjectMapper"])
+        self.dataSource = Observable.of(["RxSwift小demo", "信息核查工具 tableView", "TableView", "CollectionView", "Alamofire", "MVVM + Rxswift + Moya + ObjectMapper", "用户注册 Rx MVVM"])
+        
         
         self.setupTableView()
+        
+        
     }
  
 }
@@ -66,6 +69,7 @@ extension HomeViewController {
         //单元格点击
         tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
+                self?.tableView .deselectRow(at: indexPath, animated: true)
                 switch indexPath.row {
                 case 0:
                     let cusInfoCollVC = CusInfoColleVC()
@@ -91,6 +95,11 @@ extension HomeViewController {
                 case 5:
                     let gitHubInfoVC = GitHubInfoVC()
                     self?.navigationController?.pushViewController(gitHubInfoVC, animated: true)
+                    
+                case 6:
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let logInVC = storyboard.instantiateViewController(withIdentifier: "LoginVC")
+                    self?.navigationController?.pushViewController(logInVC, animated: true)
                     
                 default:
                     break

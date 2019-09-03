@@ -13,7 +13,7 @@ class DogVC: NSObject {
     func eat(_ errMsg: String?) -> Void {
         DONG_Log("dog eat something");
         DONG_Log(099789)
-        
+    
     }
     
     
