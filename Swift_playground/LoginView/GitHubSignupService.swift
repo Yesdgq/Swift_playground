@@ -119,7 +119,6 @@ class GitHubSignupService {
             return .failed(message: "两次输入的密码不一致")
         }
     }
-    
 }
 
 

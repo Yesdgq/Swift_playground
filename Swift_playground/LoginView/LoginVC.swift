@@ -28,7 +28,9 @@ class LoginVC: UIViewController {
         
         let viewModel = GitHubSignupViewModel(
             input: (
-                userName: userNameTF.rx.text.orEmpty.asDriver(),
+                userName: userNameTF.rx.text.orEmpty.asDriver()
+                    .throttle(0.5) //只有间隔超过0.5k秒才发送
+                    .distinctUntilChanged(),
                 password: passwordTF.rx.text.orEmpty.asDriver(),
                 repeatedPassword: repeatedPasswordTF.rx.text.orEmpty.asDriver(),
                 loginTaps: registerBtn.rx.tap.asDriver()
