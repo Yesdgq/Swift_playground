@@ -97,16 +97,16 @@ enum ServerEncryptionType {
     case jiami2
     
     //对参数进行加密
-    fileprivate func getServerEncryptionType(_ parameters: Dictionary<String, Any>?) throws -> Dictionary<String, Any> {
+    fileprivate func getEncryptionData(_ parameters: Dictionary<String, Any>?) throws -> Dictionary<String, Any> {
         
         switch self {
         case .default:
             return parameters ?? [String : String]()
             
-        case .jiami1:
+        case .jiami1: //备用加密方式
             return parameters ?? [String : String]()
             
-        case .jiami2:
+        case .jiami2: //备用加密方式
             return parameters ?? [String : String]()
         }
     }
@@ -168,6 +168,7 @@ enum ServerEncryptionType {
     }
 }
 
+// MARK: - 网络层
 
 class NetworkTool {
     
@@ -181,11 +182,11 @@ class NetworkTool {
             print("urlString:\(interface.getPath())")
             print("requestMethod:\(requestMethod.rawValue)")
             
-            let realParameters = try serverEncryptionType.getServerEncryptionType(parameters)
-            let task = self.default.managerRequest(withInterface: interface.getPath(), parameters: realParameters, method: requestMethod) { (dataResult) in
+            let encryptedParameters = try serverEncryptionType.getEncryptionData(parameters)
+            let task = self.default.managerRequest(withInterface: interface.getPath(), parameters: encryptedParameters, method: requestMethod) { (dataResult) in
                 
-                let finalDataResult = serverEncryptionType.analysisData(withResponse: dataResult)
-                switch finalDataResult {
+                let rawDataResult = serverEncryptionType.analysisData(withResponse: dataResult)
+                switch rawDataResult {
                 case .failure(let error):
                     print("errorCode:\(error.code) \nerrorMessage:\(error.localizedDescription)")
                     
@@ -193,7 +194,7 @@ class NetworkTool {
                     print("ResponseData:\(value)")
                 }
                 print("---------------------- Request End! ----------------------")
-                completionHandler(finalDataResult)
+                completionHandler(rawDataResult)
             }
             return task
             
@@ -312,8 +313,6 @@ class NetworkTool {
     
 }
 
-
-// MARK: - 网络层
 protocol RequestManagerProtocol {
     func managerRequest(withInterface interface: String, parameters: Dictionary<String, Any>, method: NetRequestMethodType, callBack: @escaping(_ dataResult: DataResult<Data>) -> Void) -> URLSessionTask?
 }
@@ -331,7 +330,6 @@ final class RequestManager: RequestManagerProtocol {
         return Alamofire.SessionManager(configuration: configuration, delegate: SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
         //        return Alamofire.SessionManager(configuration: configuration)
     }()
-    
     
     
     // 调用Alamofire发起请求
