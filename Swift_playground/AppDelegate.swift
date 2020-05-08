@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
 //            imageView?.layer.mask = mask
 //
 //            animateMask()
-//            window.rootViewController = UIViewController()
+//            window.rootViewController = ViewController()
             
             //make window visible
             window.rootViewController = UINavigationController(rootViewController: HomeViewController())

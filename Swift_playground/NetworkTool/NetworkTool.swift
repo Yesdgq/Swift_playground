@@ -331,7 +331,6 @@ final class RequestManager: RequestManagerProtocol {
         //        return Alamofire.SessionManager(configuration: configuration)
     }()
     
-    
     // 调用Alamofire发起请求
     @discardableResult func managerRequest(withInterface interface: String, parameters: Dictionary<String, Any>, method: NetRequestMethodType, callBack: @escaping (DataResult<Data>) -> Void) -> URLSessionTask? {
         
@@ -347,8 +346,8 @@ final class RequestManager: RequestManagerProtocol {
             case .failure(let error):
                 
                 print("---------------------- Request Fail! ----------------------",
-                      "\nTotalDurationTime:", response.timeline.totalDuration, "sec"
-                    //     "\nerror:", error
+                      "\nTotalDurationTime:", response.timeline.totalDuration, "sec",
+                         "\nerror:", error
                 )
                 
                 callBack(DataResult.failure(error as NSError))

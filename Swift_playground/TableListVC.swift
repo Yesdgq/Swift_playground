@@ -17,7 +17,6 @@ class MyTableListVC: UIViewController {
     var myTableView: UITableView?
     var dataArray: [CellModel] = Array()
     
-    
     // MARK: - 懒加载
     lazy var dataSourceArry: [String] = {
         return ["me", "she", "he", "other", "ww", "zl"]
@@ -110,6 +109,12 @@ class MyTableViewCell: UITableViewCell {
     let iconIV: UIImageView
     let label: UILabel
     var cellModel: CellModel? {
+        /*
+        属性观察器,类似OC中的KVO, 可以用于监听属性什么时候被修改, 只有属性被修改才会调用
+        有两种属性观察器:
+        1.willSet, 在设置新值之前调用
+        2.didSet, 在设置新值之后调用
+         */
         willSet {
             self.label.text = newValue?.name
             let url = URL(string: (newValue?.imageUrl!)!)
@@ -139,7 +144,6 @@ class MyTableViewCell: UITableViewCell {
         self.label.text = "......"
         self.contentView.addSubview(self.iconIV)
         self.contentView.addSubview(self.label)
-        
     }
     
     override func setSelected(_ selected:Bool, animated:Bool) {
